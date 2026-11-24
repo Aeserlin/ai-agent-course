@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>知识思维导图 · AI Agent 全能开发实战</title>
+<meta name="description" content="AI Agent 全能开发知识思维导图：点击任意知识点节点即可跳转到对应章节。" />
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="mindmap">
+<header id="topbar" class="topbar"></header>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Mind map</div>
+      <h2>全课程知识思维导图</h2>
+      <p>
+        这张图是专题精讲的“知识点地图”：左边是课程根节点，中间是按模块划分的分支，右边是具体章节。
+        点击任意节点即可跳转到对应章节继续学习。若想看 10 个教学阶段的全局路线，请切换到
+        <a href="syllabus.html">课程大纲导图</a>。
+      </p>
+    </div>
+
+    <div class="mm-toolbar">
+      <span class="chip on">当前：专题知识点导图</span>
+      <a class="chip link" href="syllabus.html">切换到课程大纲导图（10 阶段）</a>
+    </div>
+
+    <div class="mm-canvas">
+      <div id="global-mindmap">
+        <div class="loading"><div class="spinner"></div>正在生成思维导图…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">How to use</div>
+      <h2>怎么用这张导图复习</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="feature"><div class="ic">1</div><h4>先看分支</h4><p>从“筑基 → 核心 → 工程 → 实战”四个模块理解课程的依赖关系。</p></div>
+      <div class="feature"><div class="ic">2</div><h4>再点节点</h4><p>哪个章节没把握，直接点击进入，读该章的“疑难点分级”表格。</p></div>
+      <div class="feature"><div class="ic">3</div><h4>最后默写</h4><p>合上教程，自己在纸上画出这张图。画不出来的分支，就是你的薄弱点。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div><strong style="color:#fff">AI Agent 全能开发实战</strong><br /><small>把知识连成网，而不是背成点</small></div>
+    <div><a href="index.html">首页</a> · <a href="chapters.html">章节目录</a></div>
+  </div>
+</footer>
+
+<script src="assets/vendor/marked.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

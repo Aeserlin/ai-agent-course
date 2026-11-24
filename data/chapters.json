@@ -1,0 +1,129 @@
+{
+  "course": "AI Agent 全能开发实战",
+  "subtitle": "从大模型调用到多智能体落地的完整教学路线",
+  "version": "1.0",
+  "updated": "2026-11-24",
+  "chapters": [
+    {
+      "id": "00-overview",
+      "no": "00",
+      "title": "AI Agent 全景认知与环境准备",
+      "difficulty": "入门",
+      "level": 1,
+      "minutes": 45,
+      "summary": "先看清全局：Agent 是什么、能做什么、由哪些零件组成，再把 Python 与 API 调用环境一次性配好。",
+      "tags": ["概念地图", "能力边界", "环境搭建"],
+      "module": "筑基"
+    },
+    {
+      "id": "01-llm-basics",
+      "no": "01",
+      "title": "大模型基础与 API 调用",
+      "difficulty": "入门",
+      "level": 1,
+      "minutes": 60,
+      "summary": "理解 Token、上下文窗口、温度等核心参数，跑通第一个流式对话程序。",
+      "tags": ["Token", "上下文", "流式输出"],
+      "module": "筑基"
+    },
+    {
+      "id": "02-prompt",
+      "no": "02",
+      "title": "提示词工程：让模型稳定听话",
+      "difficulty": "入门",
+      "level": 1,
+      "minutes": 55,
+      "summary": "掌握角色设定、少样本示例、思维链与输出约束，把“玄学调参”变成可复用模板。",
+      "tags": ["角色设定", "Few-shot", "CoT"],
+      "module": "筑基"
+    },
+    {
+      "id": "03-structured-output",
+      "no": "03",
+      "title": "结构化输出与函数调用",
+      "difficulty": "进阶",
+      "level": 2,
+      "minutes": 70,
+      "summary": "让模型输出可被程序消费的 JSON，并通过 Function Calling 真正调用外部工具。",
+      "tags": ["JSON Schema", "Function Calling", "参数校验"],
+      "module": "进阶"
+    },
+    {
+      "id": "04-agent-architecture",
+      "no": "04",
+      "title": "Agent 核心架构：ReAct 与记忆",
+      "difficulty": "难点",
+      "level": 3,
+      "minutes": 90,
+      "summary": "拆解思考—行动—观察循环，手写一个最小可运行 Agent，并引入短期与长期记忆。",
+      "tags": ["ReAct", "Tool Loop", "Memory"],
+      "module": "核心"
+    },
+    {
+      "id": "05-rag",
+      "no": "05",
+      "title": "RAG 检索增强生成",
+      "difficulty": "进阶",
+      "level": 2,
+      "minutes": 85,
+      "summary": "从切分、向量化到检索重排，搭一条能回答私有知识库问题的 RAG 链路。",
+      "tags": ["Embedding", "向量检索", "重排"],
+      "module": "核心"
+    },
+    {
+      "id": "06-multi-agent",
+      "no": "06",
+      "title": "多智能体协作与编排",
+      "difficulty": "难点",
+      "level": 3,
+      "minutes": 90,
+      "summary": "理解角色分工、消息传递与图式编排，用状态图组织多个 Agent 协同完成复杂任务。",
+      "tags": ["Multi-Agent", "编排图", "状态机"],
+      "module": "核心"
+    },
+    {
+      "id": "07-mcp-tools",
+      "no": "07",
+      "title": "工具生态与 MCP 协议",
+      "difficulty": "进阶",
+      "level": 2,
+      "minutes": 70,
+      "summary": "把外部能力标准化接入：工具定义、权限边界与 MCP 客户端/服务端的最小实现。",
+      "tags": ["工具协议", "MCP", "权限边界"],
+      "module": "核心"
+    },
+    {
+      "id": "08-engineering",
+      "no": "08",
+      "title": "工程化：流式、评估与可观测性",
+      "difficulty": "难点",
+      "level": 3,
+      "minutes": 80,
+      "summary": "让 Agent 从 Demo 走向可用：流式响应、超时重试、Token 成本、离线评估与日志追踪。",
+      "tags": ["流式", "评估集", "成本控制"],
+      "module": "工程"
+    },
+    {
+      "id": "09-capstone",
+      "no": "09",
+      "title": "实战：全能开发助手 Agent",
+      "difficulty": "综合",
+      "level": 3,
+      "minutes": 120,
+      "summary": "把前八章能力拼装成一个能读代码、查文档、写补丁、做评审的开发助手，并端到端跑通。",
+      "tags": ["项目实战", "端到端", "评审闭环"],
+      "module": "实战"
+    },
+    {
+      "id": "10-deploy-safety",
+      "no": "10",
+      "title": "部署、安全与持续进阶",
+      "difficulty": "进阶",
+      "level": 2,
+      "minutes": 60,
+      "summary": "上线前的最后一公里：提示注入防护、密钥管理、限流降级与后续学习地图。",
+      "tags": ["安全", "部署", "学习地图"],
+      "module": "工程"
+    }
+  ]
+}

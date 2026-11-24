@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>AI Agent 全能开发实战 · 从入门到多智能体落地</title>
+<meta name="description" content="一套面向开发者的 AI Agent 全栈教学课程：11 个章节、逐行代码注释、难点大白话讲解、章节教学路径与知识思维导图。" />
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="home">
+<header id="topbar" class="topbar"></header>
+
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">AI Agent Full-Stack Course</span>
+    <h1>从调用大模型，到造出<br /><span class="grad">真正会干活的 AI Agent</span></h1>
+    <p class="lead">
+      完整对齐尚硅谷 AI 全能开发课程大纲：<b>10 个教学阶段</b>贯穿 Python、后端、Agent、RAG、微调与就业冲刺；
+      <b>教材同步</b>直接搬运你课程文件夹里的原始课件（Python 16 章 + 9 套大模型/工程课件），代码、表格、截图原样保留；
+      并配 <b>11 篇专题精讲</b>，提供可点击的知识思维导图、带注释代码解析与明确划分的疑难点。
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="lessons.html">从教材同步开始 →</a>
+      <a class="btn btn-ghost" href="syllabus.html">查看课程大纲</a>
+      <a class="btn btn-ghost" href="chapters.html">进入专题精讲</a>
+      <a class="btn btn-ghost" href="mindmap.html">知识思维导图</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b id="stat-stages">10</b><span>教学阶段</span></div>
+      <div class="stat"><b id="stat-chapters">11</b><span>专题精讲</span></div>
+      <div class="stat"><b id="stat-projects">17</b><span>实战项目</span></div>
+      <div class="stat"><b id="stat-hours">13</b><span>专题精讲学时（小时）</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Three tracks</div>
+      <h2>三轨结构：进度、原文、精讲各司其职</h2>
+      <p>大纲负责“学到哪、学多久”，教材同步负责“原文怎么说”，专题精讲负责“这个知识点到底怎么用”。三条轨道互相跳转。</p>
+    </div>
+    <div class="grid cols-3">
+      <a class="chapter-card" href="syllabus.html">
+        <span class="no">主线</span>
+        <h3>课程大纲 · 10 个阶段</h3>
+        <p>严格对齐尚硅谷大纲：Python 基础 → 工程基座 → 智能体架构 → RAG → Java 中台 → 微调 → 多智能体 → 低代码 → Vibe Coding → 就业冲刺。</p>
+        <div class="meta"><span class="chip">5.5 个月</span><span class="chip">17 个实战项目</span><span class="chip">6 次考试</span></div>
+      </a>
+      <a class="chapter-card" href="lessons.html">
+        <span class="no">教材</span>
+        <h3>教材同步 · 原始课件原文</h3>
+        <p>直接搬运你课程文件夹里的原始教材与课件：Python 16 章、大模型概述、LangChain、LangGraph、MySQL、FastAPI、Docker、Shell、Linux、前端工程化，代码、表格、截图全部保留。</p>
+        <div class="meta"><span class="chip">16 章 Python</span><span class="chip">9 套课件</span><span class="chip">原文保留</span></div>
+      </a>
+      <a class="chapter-card" href="chapters.html">
+        <span class="no">专题</span>
+        <h3>专题精讲 · 11 篇深入拆解</h3>
+        <p>针对 Agent 核心能力做逐行代码注释、代码解析表、大白话类比与疑难点分级，每一篇都有可跳转的章节思维导图。</p>
+        <div class="meta"><span class="chip">逐行注释</span><span class="chip">大白话</span><span class="chip">疑难点分级</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Stages</div>
+      <h2>从大纲前六个阶段开始</h2>
+      <p>每个阶段页都包含：模块拆解、教学路径、核心代码解析、疑难点分级与项目验收标准。</p>
+    </div>
+    <div id="home-stage-grid" class="grid cols-3">
+      <div class="loading"><div class="spinner"></div>正在加载阶段…</div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      <a class="btn btn-primary" href="syllabus.html">查看全部 10 个阶段 →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Why this course</div>
+      <h2>这门课解决的四个真实问题</h2>
+      <p>很多同学能调通 API，却做不出能上线的 Agent。差别不在“模型”，而在工程结构、边界处理与调试方法。</p>
+    </div>
+    <div class="grid cols-2">
+      <div class="feature">
+        <div class="ic">1</div>
+        <h4>看懂 Agent 的“零件图”</h4>
+        <p>把模型、工具、记忆、编排拆成独立模块，你知道每一步在做什么，而不是复制一段黑盒代码。</p>
+      </div>
+      <div class="feature">
+        <div class="ic">2</div>
+        <h4>代码逐行可读</h4>
+        <p>所有关键代码带中文注释，并配套“代码解析”说明：这段为什么这么写、不这么写会怎样。</p>
+      </div>
+      <div class="feature">
+        <div class="ic">3</div>
+        <h4>难点用大白话讲</h4>
+        <p>向量检索、ReAct 循环、多智能体编排这些抽象概念，用生活化类比讲清楚，再回到代码。</p>
+      </div>
+      <div class="feature">
+        <div class="ic">4</div>
+        <h4>每章都有教学路径</h4>
+        <p>明确“先学什么、再练什么、哪里会卡住”，并给出疑难点分级，帮你把时间花在刀刃上。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Learning path</div>
+      <h2>推荐学习路线（按依赖顺序）</h2>
+      <p>课程设计遵循“先会用、再会拆、最后会造”的递进顺序。时间紧的可先跳到第 04、09 章。</p>
+    </div>
+    <div id="roadmap" class="roadmap"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Chapters</div>
+      <h2>全部章节</h2>
+      <p>点击任意章节进入教程。每章顶部都有思维导图，可一键跳转到具体知识点。</p>
+    </div>
+    <div id="chapter-grid" class="grid cols-3">
+      <div class="loading"><div class="spinner"></div>正在加载课程章节…</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Study advice</div>
+      <h2>给学习者的 6 条建议</h2>
+      <p>来自一线教学与项目落地的经验，能显著降低你“学完就忘”的概率。</p>
+    </div>
+    <div class="grid cols-3">
+      <div class="feature"><div class="ic">A</div><h4>先跑通，再理解</h4><p>每个代码示例先跑起来看到结果，再回头读注释。能运行的反馈比纯阅读有效得多。</p></div>
+      <div class="feature"><div class="ic">B</div><h4>每章只做一个实验</h4><p>不要一次改十个参数。改一个变量、观察一次输出，才能建立参数与结果的因果感。</p></div>
+      <div class="feature"><div class="ic">C</div><h4>把报错当教材</h4><p>Agent 开发 70% 的时间在处理边界情况。记录你遇到的每个报错与修复方式，形成自己的排错表。</p></div>
+      <div class="feature"><div class="ic">D</div><h4>先做窄任务</h4><p>第一个 Agent 不要做“万能助手”，做“只做一件事”的窄任务，成功率更高，也更容易评估。</p></div>
+      <div class="feature"><div class="ic">E</div><h4>关注成本与延迟</h4><p>开发阶段就记录 Token 消耗耗时，否则上线后才发现成本不可控。</p></div>
+      <div class="feature"><div class="ic">F</div><h4>用思维导图复盘</h4><p>每学完一章，关掉教程，用思维导图默写一遍结构，能讲出来才算真的掌握。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div>
+      <strong style="color:#fff">AI Agent 全能开发实战</strong><br />
+      <small>面向开发者的 Agent 工程化教学站点 · 内容持续更新</small>
+    </div>
+    <div>
+      <a href="syllabus.html">课程大纲</a> ·
+      <a href="lessons.html">教材同步</a> ·
+      <a href="chapters.html">专题精讲</a> ·
+      <a href="mindmap.html">思维导图</a> ·
+      <a href="index.html">回到首页</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/vendor/marked.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

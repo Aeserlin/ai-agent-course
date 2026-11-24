@@ -1,0 +1,498 @@
+{
+  "title": "尚硅谷 AI 全能开发课程大纲",
+  "duration": "5.5 个月",
+  "stageCount": 10,
+  "stages": [
+    {
+      "id": "stage-01",
+      "no": "01",
+      "title": "Python 核心基础",
+      "subtitle": "AI 开发必备编程能力",
+      "weeks": "约 4 周",
+      "difficulty": "入门",
+      "level": 1,
+      "summary": "从环境配置到面向对象、并发与网络编程，打牢后续所有 AI 与后端开发的语言地基，并用两个小项目完成第一次综合实战。",
+      "modules": [
+        {
+          "name": "Python 核心",
+          "points": [
+            "Python 环境与 IDE 高阶配置",
+            "基础语法与流程控制",
+            "字符串 / 列表 / 字典 / 集合等容器",
+            "函数、递归、匿名函数与文件 IO",
+            "面向对象全体系：封装、继承、多态、多继承、设计模式、魔术方法",
+            "异常机制、模块打包与工程化",
+            "深浅拷贝、property、装饰器、元类、垃圾回收",
+            "多线程 / 多进程 / 协程并发、Socket 网络编程、Starlette 框架",
+            "正则表达式",
+            "综合项目：愤怒的小鸟、客户信息管理系统"
+          ]
+        }
+      ],
+      "projects": ["愤怒的小鸟", "客户信息管理系统"],
+      "exam": "考试一",
+      "related": []
+    },
+    {
+      "id": "stage-02",
+      "no": "02",
+      "title": "AI 应用工程基座",
+      "subtitle": "后端、存储与前端工程化",
+      "weeks": "约 5 周",
+      "difficulty": "进阶",
+      "level": 2,
+      "summary": "补齐真实项目必备的工程底座：Linux 与 Shell、MySQL、Docker、FastAPI + SQLAlchemy、以及 Vue3 前端工程化。",
+      "modules": [
+        {
+          "name": "Linux 基础 & Shell",
+          "points": [
+            "Linux 环境部署与系统核心命令",
+            "Shell 脚本编程：变量、流程控制、自定义函数",
+            "文本处理与正则表达式实战"
+          ]
+        },
+        {
+          "name": "MySQL",
+          "points": [
+            "安装使用、SQL 语句",
+            "数据库与表操作、SQL 约束",
+            "多表操作、开窗函数、案例",
+            "远程连接 MySQL"
+          ]
+        },
+        {
+          "name": "Docker",
+          "points": ["Docker 安装", "镜像与容器管理", "核心命令实操"]
+        },
+        {
+          "name": "FastAPI",
+          "points": [
+            "FastAPI + Uvicorn 框架基础",
+            "SQLAlchemy 数据库 ORM 整合",
+            "接口开发、小型项目实战与部署"
+          ]
+        },
+        {
+          "name": "前端工程化",
+          "points": [
+            "HTML、CSS、JavaScript 原生基础",
+            "ES6 & 模块化、NodeJS、nvm、npm 项目初始化",
+            "Vue3 工程化、Promise、async/await、AJAX、Axios",
+            "Vue 生态综合实战"
+          ]
+        }
+      ],
+      "projects": ["FastAPI 小型项目"],
+      "exam": "考试二（部分）",
+      "related": []
+    },
+    {
+      "id": "stage-03",
+      "no": "03",
+      "title": "智能体架构与工程落地",
+      "subtitle": "Agent 框架核心开发",
+      "weeks": "约 5 周",
+      "difficulty": "进阶",
+      "level": 2,
+      "summary": "课程最核心的阶段：从提示词、工具、记忆到 ReAct、Harness、Loop、多智能体，再到 LangChain 与 LangGraph 两大框架。",
+      "modules": [
+        {
+          "name": "智能体架构",
+          "points": [
+            "提示词入门",
+            "LLM 智能体 Agent 构成",
+            "工具配置、Function Call",
+            "智能体规划执行",
+            "LLM 记忆机制",
+            "MCP、Skill"
+          ]
+        },
+        {
+          "name": "智能体管控框架 - Harness Engineering",
+          "points": [
+            "Harness 管控框架",
+            "记忆分层管理",
+            "技能生命周期",
+            "智能体的记忆、权限、生命周期管控设计"
+          ]
+        },
+        {
+          "name": "智能体任务循环 - Loop Engineering",
+          "points": [
+            "Think-Act-Observe 循环",
+            "任务拆解、异常重试、自我修正",
+            "任务容错与回滚"
+          ]
+        },
+        {
+          "name": "多智能体设计模式",
+          "points": ["多 Agent 协作范式", "消息总线", "角色划分、通信编排与冲突处理"]
+        },
+        {
+          "name": "LangChain 框架",
+          "points": [
+            "框架基础",
+            "模型 IO、提示模板、输出解析、函数调用",
+            "Chains、Memory 记忆模块",
+            "ReAct 范式 Agent 开发、RAG 检索链路",
+            "项目实战：电商商家对话助手"
+          ]
+        },
+        {
+          "name": "LangGraph 框架",
+          "points": [
+            "图范式思想：State、Node、Edge",
+            "图构建编译、持久化记忆",
+            "可控智能体实现、流式输出",
+            "案例：内部文档查询助手"
+          ]
+        },
+        {
+          "name": "智能体工程化",
+          "points": [
+            "提示词工程、自定义 Tool、会话状态管理、Trace 可观测性",
+            "RAGA 评测体系、RAG 典型问题调优、常见故障优化",
+            "Agent 服务器规划、向量 / 重排 / 推理服务部署、多模型拆分上线"
+          ]
+        }
+      ],
+      "projects": ["电商商家对话助手", "内部文档查询助手"],
+      "exam": "考试二",
+      "related": ["00-overview", "01-llm-basics", "02-prompt", "03-structured-output", "04-agent-architecture", "06-multi-agent", "07-mcp-tools", "08-engineering"]
+    },
+    {
+      "id": "stage-04",
+      "no": "04",
+      "title": "RAG 应用开发实战",
+      "subtitle": "检索增强知识库构建",
+      "weeks": "约 5 周",
+      "difficulty": "难点",
+      "level": 3,
+      "summary": "从 Git、Redis、Nginx 等工程组件，到 RAG 原理与优化、GraphRAG，最后完成企业级 RAG 知识库项目与全链路评测。",
+      "modules": [
+        {
+          "name": "Git / GitHub / Gitee / GitLab",
+          "points": ["安装配置", "本地库搭建、基本操作与工作流", "集中式协作"]
+        },
+        {
+          "name": "Redis",
+          "points": ["安装配置", "五大数据类型、Jedis", "持久化：RDB、AOF"]
+        },
+        {
+          "name": "Nginx",
+          "points": [
+            "Linux / Docker 安装 Nginx",
+            "配置文件详解、静态资源服务器",
+            "反向代理、SELinux、负载均衡",
+            "基于 SpringCloud 网关的负载均衡实战"
+          ]
+        },
+        {
+          "name": "RAG 原理及优化",
+          "points": [
+            "RAG 架构演进与 Ragas 指标评估",
+            "文档处理、向量存储、检索预处理",
+            "重排序、混合检索等优化手段",
+            "GraphRAG：实体关系抽取与知识图谱构建"
+          ]
+        },
+        {
+          "name": "项目一：掌柜智库（RAG 知识库）",
+          "points": [
+            "LangGraph 可插拔 RAG 工作流",
+            "MinerU + OCR 解析图文 PDF",
+            "Milvus + 稀疏检索、高级切片",
+            "HyDE、BGE-Rerank 检索优化",
+            "RAGAS 全链路评测"
+          ]
+        },
+        {
+          "name": "项目实战一：RAG 知识库实战（五选一）",
+          "points": ["好医智库（医疗）", "伴学智库（教育）", "倾听智库（音频）", "金融智库（金融）", "美途智库（文旅）"]
+        }
+      ],
+      "projects": ["掌柜智库", "多行业 RAG 知识库（五选一）"],
+      "exam": "考试三",
+      "related": ["05-rag"]
+    },
+    {
+      "id": "stage-05",
+      "no": "05",
+      "title": "智能体全栈技术",
+      "subtitle": "Java 后端与 AI 业务中台",
+      "weeks": "约 5 周",
+      "difficulty": "难点",
+      "level": 3,
+      "summary": "补齐企业级后端能力：Java 核心、Maven、SpringBoot + MyBatis-Plus、微服务组件，并落地一个带权限管控的智能体中台项目。",
+      "modules": [
+        {
+          "name": "后端技术",
+          "points": ["Java 核心语法与面向对象"]
+        },
+        {
+          "name": "Maven",
+          "points": ["依赖管理、项目构建", "聚合与继承", "分布式项目构建实战"]
+        },
+        {
+          "name": "SpringBoot AI 服务后端开发",
+          "points": [
+            "Web 项目结构、交互流程、资源区分",
+            "Spring / SpringBoot 基础、自动配置、场景启动器、自定义启动器",
+            "日志整合、Actuator 监控、多环境配置与部署",
+            "SpringMVC 核心组件、RESTful 接口、异常处理、参数校验、拦截器",
+            "三层 / MVC 架构、MyBatis 多表查询与动态 SQL、分页、逻辑删除",
+            "MyBatis-Plus：通用 Mapper / Service、Wrapper 查询、插件机制"
+          ]
+        },
+        {
+          "name": "项目二：智能体中台",
+          "points": [
+            "本地部署知识库管理平台",
+            "RBAC / ACL 多级权限、FAQ 管理、会话审计",
+            "兼容 OpenAI 协议模型 + Qdrant 向量库",
+            "SpringBoot3 + Spring-Security + MyBatis-Plus + Flyway",
+            "MySQL / PostgreSQL / Redis、Docker 部署"
+          ]
+        },
+        {
+          "name": "微服务核心",
+          "points": [
+            "架构演进与服务化拆分",
+            "Nacos、OpenFeign、Gateway、Sentinel",
+            "流控、降级、QPS 分析与优化"
+          ]
+        }
+      ],
+      "projects": ["智能体中台"],
+      "exam": "考试四",
+      "related": ["03-structured-output"]
+    },
+    {
+      "id": "stage-06",
+      "no": "06",
+      "title": "大模型高阶项目与微调",
+      "subtitle": "对话业务系统调优实战",
+      "weeks": "约 5 周",
+      "difficulty": "难点",
+      "level": 3,
+      "summary": "进入高阶落地：任务型对话机器人、多智能体归因平台，以及 LoRA / QLoRA 微调、分布式训练与推理部署。",
+      "modules": [
+        {
+          "name": "项目三：电商小二（Harness + 单智能体）",
+          "points": [
+            "任务型智能客服系统",
+            "Sparse + Dense 特征融合、DIET 多任务模型",
+            "Rule + TED 混合对话策略",
+            "特征工程与自定义外部 API 调用",
+            "长上下文记忆与多轮交互"
+          ]
+        },
+        {
+          "name": "项目实战二：智能客服（五选一）",
+          "points": ["尚医助手（医疗）", "知学助手（教育）", "倾听助手（音频）", "金融助手（金融）", "美途助手（文旅）"]
+        },
+        {
+          "name": "项目四：智数归因平台（Harness + 多智能体）",
+          "points": [
+            "DataAgent / AttributionAgent 架构",
+            "NL2SQL 自助取数与多模型归因",
+            "混合检索、CoT 推理、AsyncIO 高并发",
+            "Qdrant + Elasticsearch + MySQL + Redis",
+            "React + TypeScript + SSE / WebSocket 可视化"
+          ]
+        },
+        {
+          "name": "大模型微调",
+          "points": [
+            "微调原理、数据集规范格式",
+            "HuggingFace 生态：SFT、Accelerate、Unsloth、DeepSpeed、Llama-Factory",
+            "全参数微调、LoRA / QLoRA、ZeRO",
+            "推理部署优化与评估工作流"
+          ]
+        },
+        {
+          "name": "项目实战三：微调实战",
+          "points": ["掌柜智库 / 电商小二 / 智数归因 三选一完成模型微调"]
+        }
+      ],
+      "projects": ["电商小二", "智数归因平台", "微调实战"],
+      "exam": "考试五",
+      "related": ["04-agent-architecture", "06-multi-agent"]
+    },
+    {
+      "id": "stage-07",
+      "no": "07",
+      "title": "多智能体高阶实战",
+      "subtitle": "企业复杂 AI 系统构建",
+      "weeks": "约 4 周",
+      "difficulty": "难点",
+      "level": 3,
+      "summary": "以真实企业系统为载体，训练多智能体协同、状态图编排、断点恢复、流式推送与可审计报告输出的完整能力。",
+      "modules": [
+        {
+          "name": "项目五：舆情分析（多智能体 + Harness）",
+          "points": [
+            "分布式多源数据采集",
+            "BERT / sentiment_agent 情感研判",
+            "多模块并行分析、模拟专家讨论",
+            "热度追踪、多级风险预警、报告与大盘"
+          ]
+        },
+        {
+          "name": "项目五：市场罗盘",
+          "points": ["SOP 动态任务编排", "双模态推理引擎", "联网搜索、NL2SQL、代码解释器", "SSE 思考过程可视化"]
+        },
+        {
+          "name": "项目六：工程调研助手（Loop Engineering）",
+          "points": [
+            "LangGraph StateGraph 编排分析流程",
+            "Git 仓库读取、代码结构分析",
+            "Checkpoint 断点恢复、事件流式推送",
+            "可审计的标准化调研报告"
+          ]
+        },
+        {
+          "name": "项目六：电商运营助手（多智能体 + Harness）",
+          "points": [
+            "商品 / 竞品 / 库存 / 经营数据整合",
+            "多模态大模型、图文视频素材生成",
+            "异步任务队列、优先级调度、失败重试",
+            "Alembic 版本迁移与数据备份"
+          ]
+        }
+      ],
+      "projects": ["舆情分析 / 市场罗盘", "工程调研助手 / 电商运营助手"],
+      "exam": "考试六",
+      "related": ["06-multi-agent", "08-engineering"]
+    },
+    {
+      "id": "stage-08",
+      "no": "08",
+      "title": "AI 低代码平台",
+      "subtitle": "大模型应用快速搭建",
+      "weeks": "约 3 周",
+      "difficulty": "入门",
+      "level": 1,
+      "summary": "用 Coze 与 Dify 快速把想法变成可用应用，理解低代码与代码开发的分工边界，掌握工作流编排与对外集成。",
+      "modules": [
+        {
+          "name": "Coze",
+          "points": [
+            "知识库搭建、RAG 全链路落地",
+            "智能体创建与调优",
+            "多端应用发布",
+            "工作流可视化编排、代码调用工作流",
+            "工程化集成"
+          ]
+        },
+        {
+          "name": "Coze 案例",
+          "points": ["商品营销海报生成", "商品营销卖点提炼", "小红书文案生成", "一键生成商品宣传视频"]
+        },
+        {
+          "name": "Dify",
+          "points": ["工作流编排、智能体搭建", "对话流应用设计", "第三方工具接入", "代码扩展工作流"]
+        },
+        {
+          "name": "Dify 案例",
+          "points": ["客户投诉分类助手（钉钉）", "一键生成产品调研报告", "客服对话记录分析", "商品评论分析"]
+        }
+      ],
+      "projects": ["Coze 电商营销应用", "Dify 客服分析应用"],
+      "exam": "",
+      "related": ["02-prompt", "05-rag"]
+    },
+    {
+      "id": "stage-09",
+      "no": "09",
+      "title": "Vibe Coding 综合项目实战",
+      "subtitle": "端到端项目攻坚",
+      "weeks": "约 5 周",
+      "difficulty": "难点",
+      "level": 3,
+      "summary": "用自然语言驱动开发，掌握 Claude Code / Cursor / Codex，理解 Skill 的定义、注册、编排与版本管理，独立交付一个全栈项目。",
+      "modules": [
+        {
+          "name": "Vibe Coding",
+          "points": [
+            "自然语言驱动开发",
+            "Claude Code、Cursor、Codex 等工具",
+            "从模糊需求到具体落地"
+          ]
+        },
+        {
+          "name": "Skill",
+          "points": [
+            "Skill 定义与生命周期",
+            "Skill 注册、检索、编排、复用",
+            "Skill 构建与 AI 工具集成",
+            "Skill 迭代与版本管理、MCP"
+          ]
+        },
+        {
+          "name": "项目实战四：全栈实战（六选一）",
+          "points": [
+            "美途旅行（文旅出行）、好房易租（租房）、倾听 FM（音频）",
+            "云尚课堂（教育）、谷德家政（家政）、好医在线（医疗）",
+            "SpringBoot3 + Spring-AI + Vue3 + Element-Plus",
+            "MySQL / MyBatis-Plus / Redis、WebSocket 实时对话",
+            "Maven + Docker + Nginx 部署上线"
+          ]
+        },
+        {
+          "name": "项目实战五：专项系统（五选一）",
+          "points": [
+            "商城风控（Deep-Risk 三阶段思维链）",
+            "万应助手（Orchestrator + MCP + Text-to-SQL）",
+            "自动化漏洞挖掘与验证（Docker 沙箱 + 多 Agent）",
+            "ETL-Agent（Harness + SeaTunnel Zeta）",
+            "企业合同审批 Agent（OCR + 规则引擎）"
+          ]
+        }
+      ],
+      "projects": ["多行业全栈平台（六选一）", "专项 Agent 系统（五选一）"],
+      "exam": "",
+      "related": ["09-capstone", "10-deploy-safety", "07-mcp-tools"]
+    },
+    {
+      "id": "stage-10",
+      "no": "10",
+      "title": "就业冲刺",
+      "subtitle": "面试与求职实战",
+      "weeks": "约 2 周",
+      "difficulty": "进阶",
+      "level": 2,
+      "summary": "串讲全部技术点与项目，形成自己的表达体系；完成简历、模拟面试与职业规划，把学习成果转化为 offer。",
+      "modules": [
+        {
+          "name": "就业面试题讲解",
+          "points": [
+            "串讲所学全部技术点",
+            "串讲全部项目",
+            "面试题与项目模拟考试"
+          ]
+        },
+        {
+          "name": "就业简历指导",
+          "points": ["简历指导与职业规划", "简历书写（Word、线上）", "模拟面试"]
+        }
+      ],
+      "projects": [],
+      "exam": "",
+      "related": ["10-deploy-safety"]
+    }
+  ],
+  "featuredChapters": [
+    "00-overview",
+    "01-llm-basics",
+    "02-prompt",
+    "03-structured-output",
+    "04-agent-architecture",
+    "05-rag",
+    "06-multi-agent",
+    "07-mcp-tools",
+    "08-engineering",
+    "09-capstone",
+    "10-deploy-safety"
+  ]
+}
