@@ -49,7 +49,19 @@
       "desc": "用图结构编排有状态的多步骤智能体，解决 LangChain 链式结构在循环、分支、人工介入上的天然短板。",
       "items": [
         { "id": "langgraph", "no": "01", "title": "LangGraph 全解", "file": "lessons/langgraph/langgraph.md", "minutes": 140, "tags": ["状态图", "循环", "多智能体"] },
-        { "id": "langchain-vs-langgraph", "no": "02", "title": "LangChain vs LangGraph", "file": "lessons/langgraph/langchain-vs-langgraph.md", "minutes": 15, "tags": ["选型", "对比"] }
+        { "id": "langchain-vs-langgraph", "no": "02", "title": "LangChain vs LangGraph", "file": "lessons/langgraph/langchain-vs-langgraph.md", "minutes": 15, "tags": ["选型", "对比"] },
+        { "id": "deepagents", "no": "03", "title": "DeepAgents 与多智能体实战", "file": "lessons/langgraph/deepagents.md", "minutes": 120, "tags": ["DeepAgents", "Skill", "子智能体"] }
+      ]
+    },
+    {
+      "id": "projects",
+      "name": "项目实战",
+      "source": "尚硅谷大模型项目实战（掌柜智库 / 电商小二 / 掌柜问数）",
+      "desc": "三个真实项目串起 RAG、多智能体客服与 NL2SQL：从需求、架构、状态设计到接口与验收。",
+      "items": [
+        { "id": "zhanggui-zhiku", "no": "01", "title": "掌柜智库：企业知识库 RAG", "file": "lessons/projects/zhanggui-zhiku.md", "minutes": 180, "tags": ["RAG", "HyDE", "Rerank"] },
+        { "id": "dianshang-xiaoer", "no": "02", "title": "电商小二：多智能体客服", "file": "lessons/projects/dianshang-xiaoer.md", "minutes": 200, "tags": ["多智能体", "状态机", "FastAPI"] },
+        { "id": "zhanggui-wenshu", "no": "03", "title": "掌柜问数：NL2SQL 数据问答", "file": "lessons/projects/zhanggui-wenshu.md", "minutes": 180, "tags": ["Text2SQL", "Qdrant", "ES"] }
       ]
     },
     {
@@ -109,6 +121,16 @@
         { "id": "bom", "no": "04", "title": "BOM 编程", "file": "lessons/web/bom.md", "minutes": 25, "tags": ["window", "定时器"] },
         { "id": "frontend-engineering", "no": "05", "title": "前端工程化", "file": "lessons/frontend/frontend-engineering.md", "minutes": 240, "tags": ["模块化", "Vite", "构建"] },
         { "id": "json", "no": "06", "title": "JSON 数据格式", "file": "lessons/frontend/json.md", "minutes": 15, "tags": ["数据格式", "接口"] }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "工程工具",
+      "source": "尚硅谷 Git 讲义 · ElasticSearch 入门",
+      "desc": "版本控制与检索工具：Git 的三区、分支协作与远程仓库，ES 的倒排索引、Mapping 与 DSL 查询。",
+      "items": [
+        { "id": "git", "no": "01", "title": "Git 版本控制", "file": "lessons/tools/git.md", "minutes": 70, "tags": ["版本控制", "分支", "远程"] },
+        { "id": "elasticsearch", "no": "02", "title": "ElasticSearch 入门", "file": "lessons/tools/elasticsearch.md", "minutes": 70, "tags": ["倒排索引", "DSL", "分词"] }
       ]
     }
   ]

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>资料检索 · AI Agent 全能开发实战</title>
+<meta name="description" content="站内资料检索：输入关键词，定位到 37 篇教材中的具体小节，点击直接跳转锚点。" />
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="search">
+<header id="topbar" class="topbar"></header>
+
+<section class="section search-page">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Knowledge search</div>
+      <h2>资料检索</h2>
+      <p>覆盖全部 37 篇教材。输入知识点关键词（如 HyDE、状态机、Rerank、条件边），回车或点击结果即可跳到对应小节。</p>
+    </div>
+
+    <form id="search-form" class="search-form" role="search" autocomplete="off">
+      <input id="search-input" class="search-input" type="search" name="q"
+             placeholder="输入关键词，如：HyDE、断点续传、条件边" aria-label="搜索教材知识点" />
+      <button class="btn btn-primary search-btn" type="submit">搜索</button>
+    </form>
+
+    <div id="search-meta" class="search-meta" aria-live="polite"></div>
+    <div id="search-results" class="search-results">
+      <div class="loading"><div class="spinner"></div>正在加载检索索引…</div>
+    </div>
+
+    <div class="search-tips">
+      <span class="chip">多个关键词用空格分隔</span>
+      <span class="chip">结果按小节聚合</span>
+      <span class="chip">点结果跳到具体锚点</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div><strong style="color:#fff">AI Agent 全能开发实战</strong><br /><small>教材原文 + 课堂讲解，边学边练</small></div>
+    <div><a href="index.html">首页</a> · <a href="lessons.html">教材同步</a> · <a href="chapters.html">专题精讲</a> · <a href="mindmap.html">思维导图</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

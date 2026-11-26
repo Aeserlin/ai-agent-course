@@ -67,7 +67,8 @@ function renderTopbar(active) {
     ["syllabus.html", "课程大纲", "syllabus"],
     ["lessons.html", "教材同步", "lessons"],
     ["chapters.html", "专题精讲", "chapters"],
-    ["mindmap.html", "思维导图", "mindmap"]
+    ["mindmap.html", "思维导图", "mindmap"],
+    ["search.html", "资料检索", "search"]
   ];
   el.innerHTML = `
     <div class="container">
@@ -181,6 +182,13 @@ function slugify(text, used) {
   while (used.has(id)) { id = `${base}-${n++}`; }
   used.add(id);
   return id;
+}
+
+/* 读取地址栏锚点：浏览器会把中文锚点编码成 %XX，需要解码后再查找元素 */
+function readHashAnchor() {
+  const raw = window.location.hash.replace(/^#/, "");
+  if (!raw) return "";
+  try { return decodeURIComponent(raw); } catch (e) { return raw; }
 }
 
 function renderMarkdown(mdText, container) {
@@ -416,10 +424,10 @@ async function initChapterPage() {
     ${next ? `<a class="next" href="chapter.html?id=${next.id}"><small>下一篇</small>${esc(next.title)}</a>` : `<a class="next" href="chapters.html"><small>完成</small>回到章节目录</a>`}`;
 
   // 支持 ?id=xx&anchor=yy 或直接 #hash
-  const anchor = params.get("anchor") || window.location.hash.replace("#", "");
+  const anchor = params.get("anchor") || readHashAnchor();
   if (anchor) {
     const target = document.getElementById(anchor);
-    if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+    if (target) setTimeout(() => target.scrollIntoView({ behavior: "instant", block: "start" }), 120);
   }
   document.body.classList.add("ready");
 }
@@ -445,6 +453,147 @@ async function initMindmapPage() {
     root: { text: "AI Agent 全能开发", href: "index.html" },
     branches
   }, {});
+}
+
+/* ============================================================
+ * 资料检索页
+ * 索引由 scripts/build_search_index.py 生成，
+ * 锚点算法与上面的 slugify() 保持一致。
+ * ============================================================ */
+let searchIndexCache = null;
+
+async function loadSearchIndex() {
+  if (searchIndexCache) return searchIndexCache;
+  const res = await fetch("data/search-index.json");
+  if (!res.ok) throw new Error("检索索引加载失败");
+  searchIndexCache = await res.json();
+  return searchIndexCache;
+}
+
+function escapeRegExp(str) {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function highlightTerms(text, tokens) {
+  const safe = esc(text);
+  if (!tokens.length) return safe;
+  const re = new RegExp("(" + tokens.map(escapeRegExp).join("|") + ")", "gi");
+  return safe.replace(re, "<mark>$1</mark>");
+}
+
+function matchSections(data, query) {
+  const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!tokens.length) return [];
+  const hits = [];
+
+  data.items.forEach((item) => {
+    const lesson = data.lessons[item.l] || {};
+    const head = (item.h || "").toLowerCase();
+    const body = (item.x || "").toLowerCase();
+    const title = (lesson.t || "").toLowerCase();
+    const tags = (lesson.tg || []).join(" ").toLowerCase();
+    const group = (lesson.g || "").toLowerCase();
+    const haystack = `${head} ${body} ${title} ${tags} ${group}`;
+    if (!tokens.every((t) => haystack.includes(t))) return;
+
+    let score = 0;
+    tokens.forEach((t) => {
+      if (head === t) score += 30;
+      else if (head.includes(t)) score += 12;
+      if (title.includes(t)) score += 6;
+      if (tags.includes(t)) score += 5;
+      if (group.includes(t)) score += 2;
+      if (body.includes(t)) score += 2;
+    });
+    if (item.lv === 2) score += 2;
+    hits.push({ item, lesson, score });
+  });
+
+  return hits.sort((a, b) =>
+    b.score - a.score || a.item.h.length - b.item.h.length);
+}
+
+function buildSnippet(text, tokens, max = 150) {
+  const src = String(text || "");
+  if (!src) return "";
+  let pos = -1;
+  tokens.forEach((t) => {
+    const i = src.toLowerCase().indexOf(t);
+    if (i >= 0 && (pos < 0 || i < pos)) pos = i;
+  });
+  const start = pos > 50 ? pos - 40 : 0;
+  let snippet = src.slice(start, start + max);
+  if (start > 0) snippet = "…" + snippet;
+  if (start + max < src.length) snippet += "…";
+  return highlightTerms(snippet, tokens);
+}
+
+function renderSearchResults(container, meta, hits, tokens, query) {
+  if (!query) {
+    meta.textContent = `索引已加载，共 ${hits.total} 个知识点小节，输入关键词开始检索。`;
+    container.innerHTML = `<div class="search-empty">试试搜索：HyDE、断崖截断、任务栈、条件边、Rerank</div>`;
+    return;
+  }
+  if (!hits.length) {
+    meta.textContent = "";
+    container.innerHTML = `<div class="search-empty">没有找到与「${esc(query)}」相关的小节，试试换个关键词或减少关键词数量。</div>`;
+    return;
+  }
+  meta.textContent = `找到 ${hits.length} 个相关小节`;
+  container.innerHTML = hits.map(({ item, lesson }) => {
+    const href = `lesson.html?id=${encodeURIComponent(item.l)}#${encodeURIComponent(item.a)}`;
+    return `
+      <a class="search-hit" href="${href}">
+        <div class="search-hit-top">
+          <span class="chip soft">${esc(lesson.g || "")}</span>
+          <span class="search-lesson">${esc(lesson.t || "")}</span>
+          <span class="search-lv">H${item.lv}</span>
+        </div>
+        <h3>${highlightTerms(item.h, tokens)}</h3>
+        ${item.x ? `<p>${buildSnippet(item.x, tokens)}</p>` : ""}
+        <span class="search-anchor">#${esc(item.a)}</span>
+      </a>`;
+  }).join("");
+}
+
+async function initSearchPage() {
+  const form = $("#search-form");
+  const input = $("#search-input");
+  const container = $("#search-results");
+  const meta = $("#search-meta");
+  let data;
+  try {
+    data = await loadSearchIndex();
+  } catch (err) {
+    container.innerHTML = `<div class="search-empty">检索索引加载失败，请刷新重试。</div>`;
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  input.value = params.get("q") || "";
+
+  let timer = null;
+  const run = () => {
+    const query = input.value.trim();
+    const hits = matchSections(data, query).slice(0, 80);
+    hits.total = data.count;
+    renderSearchResults(container, meta, hits, query.toLowerCase().split(/\s+/).filter(Boolean), query);
+    const url = query ? `search.html?q=${encodeURIComponent(query)}` : "search.html";
+    history.replaceState(null, "", url);
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    run();
+    input.blur();
+  });
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(run, 160);
+  });
+
+  container.innerHTML = "";
+  run();
 }
 
 /* ============================================================
@@ -669,10 +818,10 @@ async function initLessonPage() {
     ${prev ? `<a href="lesson.html?id=${esc(prev.id)}"><small>上一篇</small>${esc(prev.title)}</a>` : `<a href="lessons.html"><small>返回</small>教材目录</a>`}
     ${next ? `<a class="next" href="lesson.html?id=${esc(next.id)}"><small>下一篇</small>${esc(next.title)}</a>` : `<a class="next" href="chapters.html"><small>完成</small>去看专题精讲</a>`}`;
 
-  const anchor = params.get("anchor") || window.location.hash.replace("#", "");
+  const anchor = params.get("anchor") || readHashAnchor();
   if (anchor) {
     const target = document.getElementById(anchor);
-    if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+    if (target) setTimeout(() => target.scrollIntoView({ behavior: "instant", block: "start" }), 120);
   }
   document.body.classList.add("ready");
 }
@@ -690,6 +839,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (page === "mindmap") await initMindmapPage();
     else if (page === "syllabus") await initSyllabusPage();
     else if (page === "stage") await initStagePage();
+    else if (page === "search") await initSearchPage();
   } catch (err) {
     console.error(err);
     const target = $("#prose") || $("#chapter-grid") || $("#all-chapters") || $("#global-mindmap");

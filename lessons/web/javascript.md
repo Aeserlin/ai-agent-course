@@ -60,7 +60,7 @@
 
 如何编写 JavaScript 代码，有以下两种方式：
 
-- 方式 1：在<script>标签体内编写。
+- 方式 1：在 `<script>` 标签体内编写。
 
   ```html
   <script type="text/javascript">
