@@ -588,7 +588,7 @@ print(res2["messages"][-1].content)
 下面代码当中，Node2节点表示在实际执行过程中，因为某些原因导致的错误。如果将相关的状态存储到数据库中，在第一次执行时，node2前面节点的状态，会写入到数据库中，示例代码如下（关键点参见带序号注释）：
 
 ```bash
-pip install langgraph.checkpoint.sqlite
+pip install langgraph-checkpoint-sqlite
 ```
 
 ```python
@@ -1683,7 +1683,7 @@ except GraphRecursionError as e:
 
 ## 动手练习与验收标准
 
-> 素材出处：`举个栗子/举个栗子/day29/demo1/lg_1.py`、`举个栗子/举个栗子/day29/demo2/lg_3.py`、`举个栗子/举个栗子/day29/demo2/lg_4.py`、`举个栗子/举个栗子/LangGraph-课件/尚硅谷大模型技术之LangGraph.md`
+> 素材出处：`D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo1\lg_1.py`、`D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_3.py`、`D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_4.py`、`D:\AI1015尚硅谷课程\举个栗子\举个栗子\LangGraph-课件\尚硅谷大模型技术之LangGraph.md`
 
 ### 练习 1：最小 StateGraph（并行节点 + 汇合）
 
@@ -2021,4 +2021,643 @@ if __name__ == "__main__":
 - 注释掉 `node2` 里的 `raise` 后，用 `graph.invoke(None, config=config)`（同一个 `thread_id`）再次运行，只打印 node2、node3，不再打印 node1，即从断点续跑；
 - 在第二次运行后执行 `print(graph.get_state(config).values)`，能看到 `{'a': 'node1产出的数据', 'b': 'node2的数据'}`；
 - 把第二次调用的 `thread_id` 改成新值，node1 会重新执行，说明恢复依赖相同的 `thread_id`；
-- 运行前需 `pip install langgraph.checkpoint.sqlite`（课件已给出该安装命令）。
+- 运行前需 `pip install langgraph langgraph-checkpoint-sqlite`。
+
+---
+
+## day29 / day30 源码对照与补充练习
+
+下面 7 道练习的代码全部取自本机素材文件，可按路径直接对照视频与源码运行。运行前安装依赖：
+
+```bash
+pip install langgraph langgraph-checkpoint-sqlite pydantic
+```
+
+### 源码与知识点对照
+
+| 本机文件 | 演示内容（对应视频标题） | 教材对应小节 |
+|---|---|---|
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo1\lg_1.py` | 第一个案例：RAG + WEB 并行检索再汇总 | 快速入门、练习 1 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo1\lg_2.py` | 通过 BaseModel 定义状态 | 状态的定义、练习 5 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_1.py` | 输入输出状态隔离 | 输入输出数据隔离、练习 6 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_2.py` | 节点间状态隔离（私有状态类） | 节点间数据隔离（了解） |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_3.py` | 状态默认覆盖效果 | Reducer 函数、练习 2 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_4.py` | 状态累计效果（`add_messages`） | Reducer 函数、练习 2 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo3\lg_1.py` | 节点抛错导致断点结束 | 从状态中恢复执行 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo3\lg_2.py` | 去掉 `raise` 后同 `thread_id` 续跑 | 从状态中恢复执行、练习 4 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo4\lg_1.py` | 节点和通道：`channels` / `triggers` / `writers` | LangGraph 底层运行算法、练习 11 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo4\lg_2.py` | 图的历史状态：`get_state_history` / `get_state` | 获取图执行的历史状态、练习 11 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo1\lg_1.py` | 节点输入：`state` / `config` / `runtime` 自动注入 | 节点输入、练习 7 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo1\lg_2.py` | 节点输出：只返回增量字典 | 节点输出 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo1\lg_3.py` | `pickle` 序列化（缓存键生成原理） | 节点缓存、练习 8 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo1\lg_4.py` | 节点缓存：`CachePolicy(ttl, key_func)` | 节点缓存、练习 8 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo2\lg_1.py` | 节点重试：`RetryPolicy` | 节点重试 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo2\lg_2.py` | 图内外传递数据：`stream_writer` 与 `stream_mode` | 图内外数据传递 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo3\lg_1.py` | 人工审核节点：`interrupt` + `Command(resume)` | 人工审核节点、练习 9 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo3\lg_2.py` | 条件边：`add_conditional_edges` | 条件边、练习 3 |
+| `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo4\lg_1.py` | 循环边 + `recursion_limit` | 可控循环、练习 10 |
+
+### 练习 5：用 Pydantic BaseModel 定义状态
+
+与 `TypedDict` 不同，`BaseModel` 会在运行时校验数据，节点内用 `对象.属性` 读取状态。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo1\lg_2.py`。
+
+```python
+"""
+    通过BaseModel定义状态类
+    注意
+    1.访问属性的方式为 对象名.属性名
+    2.BaseModel会对数据进行校验 创建对象某些属性不赋值会报错 所以要给某些属性赋予默认值
+"""
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
+from pydantic import BaseModel
+
+
+class AllState(BaseModel):
+    query : str
+    rag_result : str | None = None
+    web_result :str | None = None
+    final_answer : str | None = None
+
+
+def rag_node(state : AllState):
+    query = state.query
+    rag_result = f"根据问题{query}，结合RAG生成的答案"
+    return {"rag_result" : rag_result}
+
+def web_node(state : AllState):
+    query = state.query
+    web_result = f"根据问题{query}，结合WEB生成的答案"
+    return {"web_result" : web_result}
+
+def final_node(state : AllState):
+    rag = state.rag_result
+    web = state.web_result
+    final_answer = rag + web
+    return {"final_answer" : final_answer}
+
+
+state_graph = StateGraph(state_schema=AllState)
+
+state_graph.add_node(rag_node)
+state_graph.add_node(web_node)
+state_graph.add_node(final_node)
+
+state_graph.add_edge(START,"rag_node")
+state_graph.add_edge(START,"web_node")
+state_graph.add_edge("rag_node","final_node")
+state_graph.add_edge("web_node","final_node")
+state_graph.add_edge("final_node",END)
+
+graph_compile = state_graph.compile()
+
+resp = graph_compile.invoke({"query": "什么是大模型？"})
+
+print(resp)
+```
+
+**验收标准**
+
+- `resp` 为字典，包含 `query`、`rag_result`、`web_result`、`final_answer` 四个键，`final_answer` 同时包含 RAG 与 WEB 两段文本；
+- 两个检索节点仍然只写各自字段，`final_node` 通过 `state.rag_result`、`state.web_result` 属性读取，不出现下标写法；
+- 把 `rag_result: str | None = None` 改成 `rag_result: str`（去掉默认值）后，只传 `{"query": "..."}` 调用会抛 Pydantic 的 `ValidationError`，说明默认值是为了兼容“节点还没写入该字段”的中间状态；
+- 把节点里的 `state.query` 改成 `state["query"]` 会抛 `TypeError`（BaseModel 不支持下标访问），这是两种状态定义方式最直观的差别。
+
+### 练习 6：输入 / 输出 Schema 隔离
+
+`input_schema` 决定外部能传什么，`output_schema` 决定外部能拿到什么，二者都必须是完整状态的子集。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo2\lg_1.py`。
+
+```python
+"""
+    输入输出数据隔离
+    通过定义input_schema 和 output_schema 对应的类 来指定哪些键可以作为输入
+    哪些键可以作为输出
+"""
+from typing import TypedDict
+
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
+
+
+class AllState(TypedDict):
+    query: str
+    rag_result: str
+    web_result: str
+    final_answer: str
+
+class InputState(TypedDict):
+    query: str
+
+class OutputState(TypedDict):
+    final_answer: str
+
+def rag_node(state : AllState):
+    # 获取到用户输入的问题
+    query = state["query"]
+    rag_result = f"根据用户的问题：{query}，结合RAG整理的答案"
+    return {"rag_result" : rag_result} # 这里的返回值属于给字典中的rag_result 进行赋值
+
+
+def web_node(state : AllState):
+    query = state["query"]
+    web_result =  f"根据用户的问题：{query}，结合WEB整理的答案"
+    return {"web_result" : web_result}
+
+
+def final_node(state : AllState):
+    rag =  state["rag_result"]
+    web =  state["web_result"]
+    final_answer = rag + web
+    return {"final_answer" : final_answer}
+
+
+state_graph = StateGraph(state_schema=AllState, input_schema=InputState, output_schema=OutputState)
+
+state_graph.add_node(rag_node)
+state_graph.add_node(web_node)
+state_graph.add_node(final_node)
+
+state_graph.add_edge(START, "rag_node")
+state_graph.add_edge(START, "web_node")
+state_graph.add_edge("rag_node", "final_node")
+state_graph.add_edge("web_node", "final_node")
+state_graph.add_edge("final_node", END)
+
+graph_compile = state_graph.compile()
+# 因为我们指定了 input_schema=InputState, 所以调用的时候只能传入 query键
+resp = graph_compile.invoke({"query" : "什么是langchain？"})
+
+print(resp)
+```
+
+**验收标准**
+
+- 正常运行结束，`resp` **只有** `final_answer` 一个键，`rag_result`、`web_result` 不出现在返回值里，说明输出被 `output_schema` 过滤；
+- 调用时只需传 `{"query": "..."}`，不需要、也不应该传中间结果字段；
+- 删掉 `output_schema=OutputState` 再运行，`resp` 会变回包含四个键，其他行为不变；
+- 在 `final_node` 里加一行 `print(state.keys())`，可以看到图内部依然持有完整的四个键，隔离只发生在图的进出口。
+
+### 练习 7：节点自动注入的三个入参
+
+节点的 `state`、`config`、`runtime` 由 LangGraph 按名称注入，与形参顺序无关。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo1\lg_1.py`。
+
+```python
+"""
+    输入  LangGraph在运行时 会自动给对应的节点 声明了state config runtime 这三个参数的节点
+    自动进行注入对应的对象
+
+"""
+from typing import TypedDict, List
+
+from langchain_core.runnables import RunnableConfig
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
+from langgraph.runtime import Runtime
+
+
+class State(TypedDict):
+    query : str
+    response : str
+    log : List[str]
+
+def first_node(state : State , config : RunnableConfig,runtime : Runtime):
+    # 打印三个对象 调用其对应的__str__魔法函数
+    print("state:",state)
+    print("config:",config)
+    print("runtime:",runtime)
+
+    print("-" * 50)
+
+    query = state["query"]
+    llm = runtime.context["llm"] # 通过llm键获取大模型对象
+    resp = llm.invoke(query) # 调用invoke函数进行查询
+    print(resp)
+
+    print("-" * 50)
+
+    configurable : dict = config.get("configurable")
+    user_id = configurable.get("user_id")
+    print("user_id:",user_id)
+
+    return {"response" : resp, "log" : [f"{user_id}访问了系统"]}
+
+class MockLLM:
+    def invoke(self,prompt : str)-> str:
+        return f"大模型根据{prompt}回答的问题"
+
+
+state_graph = StateGraph(State)
+
+state_graph.add_node(first_node)
+
+state_graph.add_edge(START,"first_node")
+state_graph.add_edge("first_node",END)
+
+llm = MockLLM()
+
+config = {"configurable" : {"user_id" : "001"}}
+
+runtime = {"llm" : llm}
+
+graph_compile = state_graph.compile()
+
+resp = graph_compile.invoke({"query" : "如何学习大模型？"} , config= config,context = runtime)
+
+print(resp)
+```
+
+**验收标准**
+
+- 运行时依次打印 `state`、`config`、`runtime` 三个对象，说明三个参数都由框架注入；
+- `resp["response"]` 的值是 `大模型根据如何学习大模型？回答的问题`，`resp["log"]` 是 `["001访问了系统"]`；
+- 把 `config` 中的 `user_id` 改成 `"002"`，`resp["log"]` 随之变成 `["002访问了系统"]`；
+- 把 `invoke` 里的 `context=runtime` 去掉，节点内 `runtime.context["llm"]` 会取不到对象而报错，说明外部依赖必须显式注入；
+- 把形参顺序改成 `(runtime, state, config)`，运行结果不变，因为注入依据是参数名而不是位置。
+
+### 练习 8：节点缓存与缓存键
+
+缓存键默认对节点输入做 `pickle` 哈希；用 `key_func` 可以只取关键字段，避免“上一轮遗留状态”导致缓存不命中。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo1\lg_4.py`，`pickle` 的原理演示在同目录 `lg_3.py`。
+
+```python
+"""
+    节点缓存
+"""
+import time
+from typing import TypedDict
+
+from langgraph.constants import END, START
+from langgraph.graph import StateGraph
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.cache.memory import InMemoryCache
+from langgraph.types import CachePolicy
+
+
+class State(TypedDict):
+    x : int
+    result : int
+
+
+def calc_node(state : State):
+    print("将开始一个耗时的计算操作……")
+    time.sleep(10)
+    print("计算操作完成")
+    return {"result" : state["x"] * 2}
+
+
+state_graph = StateGraph(State)
+
+# cache_policy=CachePolicy(ttl=5,key_func = lambda state : str(state["x"]))
+# ttl =5 表示缓存的失效时间为5秒
+# key_func = lambda state : str(state["x"])) 指定计算key的逻辑 默认按照输入内容进行计算 会存在上一次遗留状态的问题
+# 计算key的数据不能为int类型 所以我们通过str()强转为str类型
+state_graph.add_node(calc_node,cache_policy=CachePolicy(ttl=5,key_func = lambda state : str(state["x"])))
+
+
+state_graph.add_edge(START,"calc_node")
+state_graph.add_edge("calc_node",END)
+
+
+saver = InMemorySaver()
+cache = InMemoryCache()
+
+graph_compile = state_graph.compile(checkpointer=saver, cache=cache)
+
+config1 = {"configurable" : {"thread_id" : "1"}}
+
+print("*******************第一轮调用*******************")
+
+resp1 = graph_compile.invoke({"x" : 5} , config = config1)
+
+print(resp1)
+
+
+print("*******************第二轮调用*******************")
+
+
+
+config2 = {"configurable" : {"thread_id" : "1"}}
+
+# print(graph_compile.get_state(config=config2))
+
+time.sleep(3)
+
+resp2 = graph_compile.invoke({"x" : 5} , config = config2)
+
+print(resp2)
+```
+
+**验收标准**
+
+- 第一次调用打印“将开始一个耗时的计算操作……”与“计算操作完成”，约 10 秒后返回 `{'x': 5, 'result': 10}`；
+- 间隔 3 秒的第二次调用（`ttl=5` 未过期）**不再打印**这两行，直接返回相同结果；
+- 把 `ttl` 改为 1 并在第二次调用前 `time.sleep(2)`，缓存过期，两行日志与 10 秒耗时都会重新出现；
+- 去掉 `key_func` 再运行：由于同一个 `thread_id` 下 checkpointer 会把上一轮结果并进输入，第二次节点输入变成 `{'x': 5, 'result': 10}`，默认 `pickle` 键与第一次不同，缓存不命中；
+- 运行同目录 `lg_3.py` 可以看到 `pickle.dumps({"x": 5})` 与 `pickle.dumps({"x": 5, "result": 10})` 产生的字节串不同，这正是默认缓存键失效的原因。
+
+### 练习 9：人工审核节点（可修改转账内容）
+
+`interrupt` 把图内数据抛出，`Command(resume=...)` 把用户决策送回图内，并从断点继续。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo3\lg_1.py`。
+
+```python
+"""
+    人工审核节点
+"""
+from typing import TypedDict
+
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
+from langgraph.types import interrupt, Command
+
+
+class TransferState(TypedDict):
+    recipient: str  # 转账接收人
+    amount: int  # 转账金额
+    memo: str  # 转账备注
+    approved: bool  # 是否批准
+    final_status: str  # 最终转账状态
+
+
+def review_transfer(state: TransferState):
+    # 待转账的信息
+    pending_transfer = {"recipient": state["recipient"],
+                        "amount": state["amount"],
+                        "memo": state["memo"]
+                        }
+
+    # 将图内的数据传递到图外 并且再次接收用户从图外传入的数据
+    user_review = interrupt(
+        {
+            "title" : "转账审核",
+            "pending_transfer" : pending_transfer,
+            "instruction": "请返回 bool(是否批准) 或 dict(可改 recipient/amount/memo，并带 approved 字段)。"
+        }
+    )
+
+    approved = False
+    # 将待转账的信息字典复制一份 后续修改 防止修改原字典
+    update_transfer = dict(pending_transfer)
+
+    if isinstance(user_review,bool):
+        approved = user_review
+    elif isinstance(user_review,dict):
+        # 从用户传入的字典中获取键为approved的值 如果没有获取到 则默认值为True
+        approved = user_review.get("approved",True)
+        # 遍历元组 为了将对应位置的键的值 user_review  赋值给新字典中对应的键 update_transfer
+        for key in ("recipient" , "amount", "memo"):
+            if key in user_review:
+                # 将用户重新传入的数据 赋值给update_transfer字典 因为用户会可能修改转账内容
+                update_transfer[key] = user_review[key]
+
+    print(f"[Node] review_transfer：用户审核结果 approved={approved}，transfer={update_transfer}")
+
+    return {
+        "approved": approved,
+        "recipient" : update_transfer["recipient"],
+        "amount" : update_transfer["amount"],
+        "memo" : update_transfer["memo"]
+    }
+
+def execute_transfer(state: TransferState):
+    # 获取到状态中的approved
+    approved : bool = state["approved"]
+
+    if not approved:
+        print("用户拒绝了转账，转账取消")
+        return {"final_status" : "用户拒绝了转账，转账取消"}
+
+    print("模拟转账操作")
+    recipient = state["recipient"]
+    amount = state["amount"]
+    memo = state["memo"]
+    return {"final_status" : f"已转账，收款人{recipient}，金额{amount}，备注{memo}"}
+
+
+state_graph = StateGraph(TransferState)
+
+state_graph.add_node(review_transfer)
+state_graph.add_node(execute_transfer)
+
+state_graph.add_edge(START,"review_transfer")
+state_graph.add_edge("review_transfer","execute_transfer")
+state_graph.add_edge("execute_transfer",END)
+
+graph = state_graph.compile(checkpointer=InMemorySaver())
+
+config = {"configurable" : {"thread_id" : "1"}}
+
+initial_state: TransferState = {
+    "recipient": "Alice",
+    "amount": 100,
+    "memo": "午饭AA",
+    "approved": False,
+    "final_status": "",
+}
+
+first = graph.invoke(initial_state,config=config)
+
+print(first["__interrupt__"][0].value)
+
+user_review = {"approved" : True,"recipient" : "Jack" , "amount" : 5000 , "memo" : "上次的钱"}
+
+second = graph.invoke(Command(resume = user_review),config=config)
+
+print(second)
+```
+
+**验收标准**
+
+- 第一次 `invoke` 停在 `interrupt`，`first["__interrupt__"][0].value` 包含 `title`、`pending_transfer`（`recipient=Alice`、`amount=100`、`memo=午饭AA`）与 `instruction`；
+- 用上面的 `user_review` 恢复后，`second["final_status"]` 为 `已转账，收款人Jack，金额5000，备注上次的钱`，说明审核时不仅能拒绝，还能改写转账字段；
+- 把 `user_review` 改成 `False`，`final_status` 为 `用户拒绝了转账，转账取消`；
+- 把 `user_review` 改成 `{}`，`approved` 走默认值 `True`，转账沿用原始的 Alice / 100 / 午饭AA；
+- `compile` 必须带 `checkpointer`，两次调用必须使用同一个 `thread_id`，否则第二次 `Command(resume=...)` 找不到中断点。
+
+### 练习 10：循环边与 recursion_limit
+
+条件边负责“继续还是结束”，回边负责“回到上游”，两者组合就是循环。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo4\lg_1.py`，下面是修正版（原文件有两处问题，见代码注释）：
+
+```python
+"""
+    循环边（修正版）
+
+    原文件 D:\AI1015尚硅谷课程\举个栗子\举个栗子\day30\day30-代码\day30\demo4\lg_1.py 有两处问题：
+    1）`from tkinter.constants import END` 误导入：tkinter 的 END 是字符串 "end"，
+       不是 LangGraph 的终止常量 "__end__"，路由返回后会被当成不存在的节点；
+    2）f-string 内层用了同一种双引号 `{state["count"]}`，只有 Python 3.12+ 才允许，
+       低版本会直接语法报错，这里改为外层双引号、内层单引号。
+"""
+from typing import TypedDict
+
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
+
+
+class State(TypedDict):
+    count : int
+    result : str
+    max_count: int
+
+
+def node_a(state: State):
+    print(f"当前执行a节点，计数{state['count']}")
+    return {
+        "count" : state["count"] + 1,
+        "result" : f"当前一共处理了{state['count']}次"
+    }
+
+def node_b(state: State):
+    print(f"当前执行b节点，计数{state['count']}")
+    return {
+        "count": state["count"] + 1,
+        "result": f"当前一共处理了{state['count']}次"
+    }
+
+def router(state: State):
+    if state["count"] >= state["max_count"]:
+        return END
+    else:
+        return "node_b"
+
+state_graph = StateGraph(State)
+
+state_graph.add_node(node_a)
+state_graph.add_node(node_b)
+
+state_graph.add_edge(START,"node_a")
+state_graph.add_conditional_edges("node_a", router)
+state_graph.add_edge("node_b", "node_a")
+
+graph = state_graph.compile()
+
+resp = graph.invoke({"count" : 0,"result" : "","max_count" : 10})
+
+print(resp)
+```
+
+**验收标准**
+
+- 默认递归上限下运行，`node_a` 与 `node_b` 交替打印，最终 `resp["count"]` 为 `11`、`resp["result"]` 为 `当前一共处理了10次`（`result` 用的是自增前的旧值）；
+- 把 `max_count` 改成 6，结束时 `count` 为 `7`，说明终止判断发生在 `node_a` 之后、`node_b` 之前；
+- 给 `invoke` 加上 `config={"recursion_limit": 6}`，图会在 6 个超步内到不了终止条件并抛 `GraphRecursionError`，说明循环必须有明确的退出条件，同时要关注递归上限；
+- 把 `router` 的 `END` 换成字符串 `"end"` 再运行，会因找不到对应节点而报错，印证原文件误用 `tkinter.constants.END` 的问题。
+
+### 练习 11：节点、通道与历史快照
+
+`channels` 是图里所有可写通道，`triggers` 是节点订阅（读）的通道，`writers` 是节点允许写入的通道；配合 checkpointer 还能回看每一次超步的快照。代码取自 `D:\AI1015尚硅谷课程\举个栗子\举个栗子\day29\day29-代码\day29\demo4\lg_1.py` 与同目录 `lg_2.py`。
+
+```python
+"""
+    查看图的通道、节点订阅与写入
+    add_message 直接拼接 不会去重
+    operator.add 拼接状态 会去重
+"""
+import operator
+from typing import TypedDict, List, Annotated
+
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
+
+
+class MyState(TypedDict):
+    item : Annotated[List[str] , operator.add]
+
+def node_a(state : MyState):
+    print("当前执行a节点，item的取值为:" , state["item"])
+    return {"item" : ["A"]}
+
+def node_b(state : MyState):
+    print("当前执行b节点，item的取值为:", state["item"])
+    return {"item" : ["B"]}
+
+def node_b2(state : MyState):
+    print("当前执行b2节点，item的取值为:", state["item"])
+    return {"item": ["B2"]}
+
+def node_c(state : MyState):
+    print("当前执行c节点，item的取值为:", state["item"])
+    return {"item" : ["C"]}
+
+def node_d(state : MyState):
+    print("当前执行d节点，item的取值为:", state["item"])
+    return {"item" : ["D"]}
+
+
+state_graph = StateGraph(MyState)
+
+state_graph.add_node(node_a)
+state_graph.add_node(node_b)
+state_graph.add_node(node_b2)
+state_graph.add_node(node_c)
+state_graph.add_node(node_d)
+
+state_graph.add_edge(START,"node_a")
+state_graph.add_edge("node_a","node_b")
+state_graph.add_edge("node_a","node_c")
+state_graph.add_edge("node_b","node_b2")
+state_graph.add_edge("node_c","node_d")
+state_graph.add_edge("node_b2","node_d")
+state_graph.add_edge("node_d",END)
+
+graph_compile = state_graph.compile()
+
+resp = graph_compile.invoke({"item" : []})
+
+print(resp)
+
+
+print("**************查看通道**************")
+
+print(graph_compile.channels)
+
+print("**************查看指定节点订阅**************")
+
+print(graph_compile.nodes["node_a"].triggers)
+
+
+print("**************查看指定节点写入**************")
+
+print(graph_compile.nodes["node_a"].writers)
+```
+
+在上面这张图上加 SQLite 持久化，即可读取历史快照（节选自 `lg_2.py`，前面的节点定义相同，只保留结尾部分）：
+
+```python
+import sqlite3
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+connect = sqlite3.connect("./demo.db", check_same_thread=False)
+saver = SqliteSaver(connect)
+
+graph_compile = state_graph.compile(checkpointer=saver)
+
+config = {"configurable" : {"thread_id" : "2"}}
+
+resp = graph_compile.invoke({"item": []}, config=config)
+
+print(resp)
+
+print("*" * 100)
+
+history = graph_compile.get_state_history(config= config)
+
+print(type(history))
+
+for state in list(history):
+    print("-" * 50)
+    print(state)
+
+print("*" * 100)
+
+last_state = graph_compile.get_state(config = config)
+print(type(last_state))
+print(last_state)
+```
+
+**验收标准**
+
+- `graph_compile.channels` 的输出中包含 `item` 通道，`graph_compile.nodes["node_a"].triggers` 与 `.writers` 都包含 `item`，说明该节点订阅并写入同一个通道；
+- 最终 `resp["item"]` 同时包含 `A`、`B`、`B2`、`C`、`D` 五个元素；并行分支（`b→b2` 与 `c`）谁先执行不固定，因此顺序不作为验收条件，但 `d` 必须在两条分支都完成后才执行；
+- 历史部分运行后生成 `demo.db`，`get_state_history(config)` 返回的是生成器（`type` 打印为 `generator`），逐个遍历可以看到多次超步快照，数量与图执行的步数一致；
+- `graph_compile.get_state(config).values` 与最后一次 `invoke` 返回的最终状态一致；
+- 换一个新的 `thread_id` 再执行，历史快照从头开始，说明历史按 `thread_id` 隔离。
