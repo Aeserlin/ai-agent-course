@@ -464,7 +464,7 @@ let searchIndexCache = null;
 
 async function loadSearchIndex() {
   if (searchIndexCache) return searchIndexCache;
-  const res = await fetch("data/search-index.json");
+  const res = await fetch("data/search-index.json", { cache: "no-cache" });
   if (!res.ok) throw new Error("检索索引加载失败");
   searchIndexCache = await res.json();
   return searchIndexCache;
