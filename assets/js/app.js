@@ -386,7 +386,7 @@ async function initChapterPage() {
 
   document.title = `${chapter.title} · AI Agent 全能开发实战`;
 
-  const md = await (await fetch(`chapters/${id}.md`)).text();
+  const md = await (await fetch(`chapters/${id}.md`, { cache: "no-cache" })).text();
   const prose = $("#prose");
   const headings = renderMarkdown(md, prose);
 
@@ -683,7 +683,7 @@ async function initStagePage() {
     </div>
     ${relatedHtml}`;
 
-  const md = await (await fetch(`stages/${id}.md`)).text();
+  const md = await (await fetch(`stages/${id}.md`, { cache: "no-cache" })).text();
   const headings = renderMarkdown(md, $("#stage-prose"));
   buildChapterMindmap(headings, $("#stage-mindmap"));
   buildToc(headings, $("#stage-toc"));
@@ -803,7 +803,7 @@ async function initLessonPage() {
       <a class="chip link" href="lessons.html">教材目录</a>
     </div>`;
 
-  const res = await fetch(cur.file);
+  const res = await fetch(cur.file, { cache: "no-cache" });
   if (!res.ok) throw new Error(`教材文件加载失败：${cur.file}`);
   const md = await res.text();
   const headings = renderMarkdown(md, $("#prose"));
