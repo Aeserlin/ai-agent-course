@@ -11,7 +11,7 @@
 
 掌柜智库面向产品手册、维修指南这类**垂直领域长文档**：导入侧把 PDF/Markdown 变成带商品名、图片、双向量的切片；查询侧先确认“问的是哪个产品”，再多路召回、融合、精排，最后流式输出答案。
 
-![掌柜智库整体架构](../../assets/lessons-projects/zhanggui-zhiku/architecture.jpg)
+![掌柜智库整体架构](assets/lessons-projects/zhanggui-zhiku/architecture.jpg)
 
 ## 1. 技术栈与部署
 
@@ -82,7 +82,7 @@ class ImportGraphState(TypedDict, total=False):
             )
 ```
 
-![节点基类执行流程](../../assets/lessons-projects/zhanggui-zhiku/node-base.jpg)
+![节点基类执行流程](assets/lessons-projects/zhanggui-zhiku/node-base.jpg)
 
 ### 2.2 入口节点
 
@@ -126,7 +126,7 @@ $env:MINERU_MODEL_SOURCE="local"
 
 两种方式产出的 Markdown 结构一致，后续节点无需区分。
 
-![PDF 转 Markdown 流程](../../assets/lessons-projects/zhanggui-zhiku/pdf-to-md.png)
+![PDF 转 Markdown 流程](assets/lessons-projects/zhanggui-zhiku/pdf-to-md.png)
 
 ### 2.4 MD 图片处理与 MinIO
 
@@ -148,7 +148,7 @@ except Exception:
 
 视觉模型调用有**滑动窗口限流**：`max_requests=10`、`window_seconds=60`，避免批量导入时打爆 API。
 
-![滑动窗口限流](../../assets/lessons-projects/zhanggui-zhiku/rate-limit.png)
+![滑动窗口限流](assets/lessons-projects/zhanggui-zhiku/rate-limit.png)
 
 ### 2.5 文档切片（07，旧版缺失）
 
@@ -193,7 +193,7 @@ except Exception:
 | 兜底 | 无标题时 `title="无标题"` |
 | 备份 | `D:/doc/<file_title>/chunks.json` |
 
-![文档切片流程](../../assets/lessons-projects/zhanggui-zhiku/doc-split.png)
+![文档切片流程](assets/lessons-projects/zhanggui-zhiku/doc-split.png)
 
 ### 2.6 主体识别（08，旧版缺失）
 
@@ -236,7 +236,7 @@ ITEM_NAME_USER_PROMPT_TEMPLATE = """
 - 识别结果同时写入 `state["item_name"]` 和每个 chunk 的 `item_name`；
 - 该节点还会对商品名生成 Dense+Sparse，写入 `kb_item_names` 集合。**商品名与 chunks 是两条独立入库支线**，09/10 只负责 chunks。
 
-![主体识别流程](../../assets/lessons-projects/zhanggui-zhiku/item-name.png)
+![主体识别流程](assets/lessons-projects/zhanggui-zhiku/item-name.png)
 
 ### 2.7 向量化（09，旧版缺失）
 
@@ -259,7 +259,7 @@ BGE-M3 一次产出稠密 + 稀疏向量，按 `batch_size=5` 批处理；参与
                 output_data.append(item)
 ```
 
-![向量化节点流程](../../assets/lessons-projects/zhanggui-zhiku/embedding.png)
+![向量化节点流程](assets/lessons-projects/zhanggui-zhiku/embedding.png)
 
 ### 2.8 存入 Milvus（10，旧版缺失）
 
@@ -307,13 +307,13 @@ BGE-M3 一次产出稠密 + 稀疏向量，按 `batch_size=5` 批处理；参与
 
 插入后把自增主键回填到 chunk，供查询侧做 RRF 去重与 Rerank 引用。
 
-![保存 Milvus 节点流程](../../assets/lessons-projects/zhanggui-zhiku/milvus-save.png)
+![保存 Milvus 节点流程](assets/lessons-projects/zhanggui-zhiku/milvus-save.png)
 
 ---
 
 ## 3. 查询链路：确认 → 三路召回 → RRF → Rerank → 答案
 
-![产品确认节点流程](../../assets/lessons-projects/zhanggui-zhiku/product-confirm.png)
+![产品确认节点流程](assets/lessons-projects/zhanggui-zhiku/product-confirm.png)
 
 ### 3.1 查询状态
 
@@ -351,7 +351,7 @@ class QueryGraphState(TypedDict):
 
 **① 向量检索（13）**：查询与切片都用 BGE-M3 双向量，过滤 `item_name in {item_names}`；ANN 请求 `limit=10`，`hybrid_search` 默认最终 `limit=5`，权重 `(0.8, 0.2)`，未开 `norm_score`。
 
-![向量搜索流程](../../assets/lessons-projects/zhanggui-zhiku/vector-search.png)
+![向量搜索流程](assets/lessons-projects/zhanggui-zhiku/vector-search.png)
 
 **② HyDE 检索（14）**：先让 LLM 写一段不超过 300 字的“假设答案”，再用 `rewritten_query + " " + hyde_doc` 生成向量检索，写独立字段：
 
@@ -373,7 +373,7 @@ class QueryGraphState(TypedDict):
         return {"hyde_embedding_chunks": reps[0]}
 ```
 
-![假设性文档生成流程](../../assets/lessons-projects/zhanggui-zhiku/hyde.png)
+![假设性文档生成流程](assets/lessons-projects/zhanggui-zhiku/hyde.png)
 
 **③ 网络搜索（15，旧版缺失）**：通过 MCP 调用百炼 `bailian_web_search`，超时 10 秒、最多重试 3 次，取 5 条结果：
 
@@ -401,7 +401,7 @@ class QueryGraphState(TypedDict):
 
 返回结构解析 `result.content[0].text` 里的 `pages`，丢弃空 `snippet`。
 
-![MCP 节点流程](../../assets/lessons-projects/zhanggui-zhiku/web-search-mcp.png)
+![MCP 节点流程](assets/lessons-projects/zhanggui-zhiku/web-search-mcp.png)
 
 ### 3.4 RRF 融合（16，旧版缺失）
 
@@ -426,7 +426,7 @@ RRF 只看排名不看分数：`score(d) = Σ weight / (k + rank)`，`k=60`。**
 - `max_results=None` 表示不截断（正文“保留若干”与代码不一致）；
 - 课件多处把 RRF 写成 “RFF”，以代码为准。
 
-![RRF 融合排序流程](../../assets/lessons-projects/zhanggui-zhiku/rrf.png)
+![RRF 融合排序流程](assets/lessons-projects/zhanggui-zhiku/rrf.png)
 
 ### 3.5 Rerank：合并 Web + 断崖截断（17）
 
@@ -458,7 +458,7 @@ Rerank 前先把本地 RRF 结果与网络结果合并为统一格式 `{content,
 
 > 口径修正：01/02 章写“本地 BGE-Reranker-Large”，17 章实际调用 DashScope `qwen3-rerank`（`TEXT_RERANK_INSTRUCT=针对给定的查询，检索能够解答该查询的相关段落`），未看到本地 reranker 代码。
 
-![重排序流程](../../assets/lessons-projects/zhanggui-zhiku/rerank.png)
+![重排序流程](assets/lessons-projects/zhanggui-zhiku/rerank.png)
 
 ### 3.6 答案输出（20）
 
